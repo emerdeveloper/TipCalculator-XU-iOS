@@ -18,9 +18,15 @@ namespace TipCalculator
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            // Override point for customization after application launch.
-            // If not required for your application you can safely delete this method
+            // create a new window instance based on the screen size
+            // The constructor for UIWindow takes a CGRect which defines the rectangle that the window will cover.
+            Window = new UIWindow(UIScreen.MainScreen.Bounds); // to cover the entire device screen, so use the static property UIScreen.MainScreen.Bounds
 
+            // This will make that View Controller (and the view it is responsible for) the initial screen for the application.
+            Window.RootViewController = new MyViewController();
+
+            // make the window visible
+            Window.MakeKeyAndVisible();//  we have to direct iOS to make this new window the primary or key window - we do this by calling the MakeKeyAndVisible method on the UIWindow object
             return true;
         }
 
