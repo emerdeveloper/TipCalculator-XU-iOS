@@ -12,9 +12,9 @@
     **/
     public class MyViewController : UIViewController
     {
-        public MyViewController()
-        {
-        }
+        UITextField totalAmount;
+        UIButton calcButton;
+        UILabel resultLabel;
 
 		public override void ViewDidLoad()
 		{
@@ -24,8 +24,8 @@
             this.View.BackgroundColor = UIColor.Yellow;
 
             // Create the text field or edit text - set size 
-            UITextField totalAmount = new UITextField(
-                    new CGRect(35, 28, View.Bounds.Width - 40, 35))
+            totalAmount = new UITextField(
+                    new CGRect(20, 35, View.Bounds.Width - 40, 35))
             {
                 KeyboardType = UIKeyboardType.DecimalPad,
                 BorderStyle = UITextBorderStyle.RoundedRect,
@@ -33,7 +33,7 @@
             };
 
             //create a Button
-            UIButton calcButton = new UIButton(UIButtonType.Custom)
+            calcButton = new UIButton(UIButtonType.Custom)
             {
                 Frame = new CGRect(20 //left and right edges of the screen (pts)
                                                                  , 71, //top (pts)
@@ -44,7 +44,7 @@
             calcButton.SetTitle("Calcular", UIControlState.Normal);
 
             //create a Label
-            UILabel resultLabel = new UILabel(new CGRect(20, 124, View.Bounds.Width - 40, 40))
+            resultLabel = new UILabel(new CGRect(20, 124, View.Bounds.Width - 40, 40))
             {
                 TextColor = UIColor.Blue,
                 TextAlignment = UITextAlignment.Center,
@@ -57,6 +57,17 @@
              * or add them as an array of UIView objects using View.AddSubviews.
              */
             View.AddSubviews(totalAmount, calcButton, resultLabel);
+
+            calcButton.TouchUpInside += CalcButton_TouchUpInside;
         }
+
+        void CalcButton_TouchUpInside(object sender, EventArgs e)
+        {
+            totalAmount.ResignFirstResponder();
+            double value = 0;
+            Double.TryParse(totalAmount.Text, out value);
+            resultLabel.Text = string.Format("Tip is {0:C}", TipCalculator.GetTip(value, 20));
+        }
+
 	}
 }
